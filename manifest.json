@@ -1,0 +1,11 @@
+{
+	"id": "vault-admin-plugin",
+	"name": "Vault Admin Plugin",
+	"version": "0.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "1",
+	"author": "seawalker",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
