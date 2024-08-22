@@ -2,6 +2,8 @@ import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Set
 
 import t from 'src/l10n/locale';
 import { VaultAdminSettingTab } from 'src/settings_tab';
+import { amend_tag } from 'src/tag_amender';
+
 import { VIEW_TYPE_VA_CHAT, VAChatView } from 'src/view/va_chat';
 import { VIEW_TYPE_VA_DISCOVERY, VADiscoveryView } from 'src/view/va_discovery';
 
@@ -9,16 +11,16 @@ import { VIEW_TYPE_VA_DISCOVERY, VADiscoveryView } from 'src/view/va_discovery';
 
 interface VaultAdminPluginSettings {
 	omnivoreFolder: string;
-	keepAt: string;
-	keepOnStart: boolean;
+	amendAt: string;
+	amendOnStart: boolean;
 	frequency: number;
 
 }
 
 const DEFAULT_SETTINGS: VaultAdminPluginSettings = {
 	omnivoreFolder: 'Omnivore',
-	keepAt: '2023-05-01T00:00:00',
-	keepOnStart: true,
+	amendAt: '2023-05-01T00:00:00',
+	amendOnStart: true,
 	frequency: 1,
 }
 
@@ -53,6 +55,7 @@ export default class VaultAdminPlugin extends Plugin {
 			// Called when the user clicks the icon.
 			// 对目录里的所有内容进行tag整理。
 			new Notice('start to clean the tags in Omnivore folder!');
+			amend_tag(this);
 		})
 
 
@@ -73,17 +76,14 @@ export default class VaultAdminPlugin extends Plugin {
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
+			// console.log('click', evt);
 		});
 
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
 	onunload() {
 
 	}
-
 
 	async openChatView() {
 		const { workspace } = this.app;
@@ -111,7 +111,6 @@ export default class VaultAdminPlugin extends Plugin {
 			workspace.revealLeaf(leaf);
 		}
 	}
-
 
 	async openDiscoveryView() {
 		const { workspace } = this.app;

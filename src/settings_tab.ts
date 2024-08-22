@@ -39,9 +39,9 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             // )
             .addToggle((toggle) =>
                 toggle
-                    .setValue(this.plugin.settings.keepOnStart)
+                    .setValue(this.plugin.settings.amendOnStart)
                     .onChange(async (value) => {
-                        this.plugin.settings.keepOnStart = value
+                        this.plugin.settings.amendOnStart = value
                         await this.plugin.saveSettings()
                     }),
             )
@@ -74,10 +74,10 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             .addMomentFormat((momentFormat) =>
                 momentFormat
                     .setPlaceholder('Last Sync')
-                    .setValue(this.plugin.settings.keepAt)
+                    .setValue(this.plugin.settings.amendAt)
                     .setDefaultFormat("yyyy-MM-dd'T'HH:mm:ss")
                     .onChange(async (value) => {
-                        this.plugin.settings.keepAt = value
+                        this.plugin.settings.amendAt = value
                         await this.plugin.saveSettings()
                     }),
             )

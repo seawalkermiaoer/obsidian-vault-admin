@@ -1,6 +1,8 @@
 {
   "omnivoreFolder": "Omnivore",
+  "amendAt": "2024-08-01T00:00:00",
+  "amendOnStart": true,
+  "frequency": 1,
   "keepAt": "2023-05-12T00:00:00",
-  "keepOnStart": false,
-  "frequency": 1
+  "keepOnStart": false
 }
