@@ -25,7 +25,6 @@ function tagfy(vault: Vault, file: TFile): Promise<string> {
 export async function amend_tag(plugin: VaultAdminPlugin) {
     const lastAmendAt = plugin.settings.amendAt
     const lastAmendAtTs: number = convertStringToTs(lastAmendAt);
-
     const omnivoreFolder = plugin.settings.omnivoreFolder
 
     console.log(lastAmendAt, lastAmendAtTs, omnivoreFolder)
