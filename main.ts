@@ -57,7 +57,7 @@ export default class VaultAdminPlugin extends Plugin {
 
 
 		const discoveryIcon = 'VA:discovery'
-		this.addRibbonIcon("link", discoveryIcon, async (evt: MouseEvent) => {
+		this.addRibbonIcon("link-2", discoveryIcon, async (evt: MouseEvent) => {
 			this.openDiscoveryView();
 		});
 

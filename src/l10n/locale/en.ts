@@ -16,4 +16,9 @@ export default {
     'Dictionary Settings': 'Dictionary Settings',
     'Language': 'Language',
 
+
+    // va chat
+    "VA Chat View": "VA Chat",
+    "VA Discovery View": "VA Discovery",
+
 };
