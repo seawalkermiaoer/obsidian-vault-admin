@@ -47,7 +47,7 @@ export default class VaultAdminPlugin extends Plugin {
 
 
 
-		const iconId = 'VA:keep'
+		const iconId = 'VA:tag-amender'
 		// This creates an icon in the left ribbon.
 		this.addRibbonIcon("book-marked", iconId, async (evt: MouseEvent) => {
 			// Called when the user clicks the icon.

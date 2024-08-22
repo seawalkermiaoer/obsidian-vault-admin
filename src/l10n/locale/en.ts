@@ -8,8 +8,8 @@ export default {
     // Omnivore settings
     "Omnivore Settings": "Omnivore Settings",
     "Omnivore Folder": "Folder",
-    "Omnivore Keep On Startup": "Keep On Startup",
-    "Omnivore Last Keep": "Last Keep",
+    "Omnivore TagAmender On Startup": "TagAmender On Startup",
+    "Omnivore Tag Last Amend": "Tag Last Amend",
 
 
     "Reset to default": "Reset to default",

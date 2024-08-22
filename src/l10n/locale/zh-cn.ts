@@ -9,7 +9,7 @@ export default {
 
     "Omnivore Settings": "整理 Omnivore 文档中的异常标签",
     "Omnivore Folder": "Omnivore 目录",
-    "Omnivore Last Keep": "Omnivore 最后一次整理时间",
+    "Omnivore Last TagAmender": "Omnivore 标签最后一次整理时间戳",
 
 
 

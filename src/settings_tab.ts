@@ -33,7 +33,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
 
 
         new Setting(containerEl)
-            .setName(t('Omnivore Keep On Startup'))
+            .setName(t('Omnivore TagAmender On Startup'))
             // .setDesc(
             //     'Check this box if you want to sync with Omnivore when the app is loaded',
             // )
@@ -70,7 +70,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             )
 
         new Setting(containerEl)
-            .setName(t('Omnivore Last Keep'))
+            .setName(t('Omnivore Tag Last Amend'))
             .addMomentFormat((momentFormat) =>
                 momentFormat
                     .setPlaceholder('Last Sync')
