@@ -4,7 +4,7 @@ import t from 'src/l10n/locale';
 import { VaultAdminSettingTab } from 'src/settings_tab';
 import { amend_tag } from 'src/tag_amender';
 
-import { VIEW_TYPE_VA_CHAT, VAChatView } from 'src/view/va_chat';
+import { VIEW_TYPE_VA_CHAT, VAChatView } from 'src/views/va_chat';
 import { VIEW_TYPE_VA_DISCOVERY, VADiscoveryView } from 'src/view/va_discovery';
 
 // Remember to rename these classes and interfaces!

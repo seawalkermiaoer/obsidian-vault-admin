@@ -21,5 +21,5 @@
   },
   "include": [
     "**/*.ts"
-, "src/view/va_discovery.tsx"  ]
+, "src/views/va_discovery.tsx"  ]
 }
