@@ -2,6 +2,7 @@ import { PluginSettingTab, App, Setting, Notice } from "obsidian";
 import t from 'src/l10n/locale';
 import VaultAdminPlugin from "../main";
 
+
 export class VaultAdminSettingTab extends PluginSettingTab {
     plugin: VaultAdminPlugin;
 
