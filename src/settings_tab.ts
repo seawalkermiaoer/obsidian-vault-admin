@@ -15,8 +15,6 @@ export class VaultAdminSettingTab extends PluginSettingTab {
 
         containerEl.empty();
 
-
-
         /**
         *  Omnivore Options, such as folder location, last time, etc.
         **/

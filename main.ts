@@ -31,9 +31,6 @@ const DEFAULT_SETTINGS: VaultAdminPluginSettings = {
 export default class VaultAdminPlugin extends Plugin {
 	settings: VaultAdminPluginSettings;
 
-
-
-
 	async onload() {
 		await this.loadSettings();
 

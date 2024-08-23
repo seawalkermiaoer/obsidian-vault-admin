@@ -5,6 +5,8 @@ import { StrictMode } from "react";
 import { Root, createRoot } from "react-dom/client";
 import { ReactView } from "./components/TestView";
 
+import {ItemList} from "./components/SearchListView";
+
 import { AppContext } from "src/context";
 
 export const VIEW_TYPE_VA_DISCOVERY = "va-discovery-view";
@@ -34,8 +36,8 @@ export class VADiscoveryView extends ItemView {
       this.root.render(
         <AppContext.Provider value={this.app}>
         <StrictMode>
-            <ReactView 
-            name={this.app.vault.getName()} />
+            <ItemList
+            app={this.app} />
         </StrictMode>
         </AppContext.Provider>
       );

@@ -36,11 +36,7 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
     const files = this.app.vault.getMarkdownFiles()
 
     const now = new Date();
-    console.log(now)
-
-    plugin.settings.amendAt = format(now, "yyyy-MM-dd'T'HH:mm:ss");
-    await plugin.saveSettings()
-
+    const ts = format(now, "yyyy-MM-dd'T'HH:mm:ss");
     for (let i = 0; i < files.length; i++) {
         const path = files[i].path
         const mtime = files[i].stat.ctime
@@ -49,4 +45,6 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
             tagfy(this.app.vault, files[i])
         }
     }
+    plugin.settings.amendAt = ts
+    await plugin.saveSettings();
 }
