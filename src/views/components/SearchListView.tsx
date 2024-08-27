@@ -49,7 +49,7 @@ export const ItemList = ({ app }: { app: App }) => {
         {
             title: '0.70 | 忍不住想问一句这是Obsidian还是浏览器！',
             uri: 'Omnivore/忍不住想问一句这是Obsidian还是浏览器！.md',
-            summary: '插件名为Obsidian Beautitab',
+            summary: '插件名为Obsidian 搜索',
         },
     ];
 

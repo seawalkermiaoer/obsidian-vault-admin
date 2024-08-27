@@ -1,9 +1,11 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
+import { Root, createRoot } from "react-dom/client";
 import t from 'src/l10n/locale';
 
 export const VIEW_TYPE_VA_CHAT = "va-chat-view";
 
 export class VAChatView extends ItemView {
+  root: Root | null = null;
   constructor(leaf: WorkspaceLeaf) {
     super(leaf);
   }
@@ -18,9 +20,18 @@ export class VAChatView extends ItemView {
 
   async onOpen() {
     this.icon = "message-circle";
-    const container = this.containerEl.children[1];
-    container.empty();
-    container.createEl("h4", { text: "VA CHAT view" });
+    const container = this.containerEl.children[1]; // 获取视图的容器元素
+
+    // 创建并嵌入 iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = "http://localhost/chatbot/WlJpO3knpI2beGDe";
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.minHeight = '700px';
+    iframe.frameBorder = "0";
+    iframe.allow = "microphone";
+
+    container.appendChild(iframe);
   }
 
   async onClose() {
