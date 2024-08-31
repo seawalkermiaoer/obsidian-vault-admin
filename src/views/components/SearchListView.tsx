@@ -1,10 +1,11 @@
 import * as React from "react";
 import { App, TFile, Notice } from 'obsidian'
 import { timeLog } from "console";
+import { difySearch } from "src/libs/dify_search";
 
 // 单个列表项组件
-const Item = ({ title, uri, summary, onTitleClick, onLinkClick }: {
-    title: string; summary: string; uri:string; onTitleClick: () => void; onLinkClick: () => void;
+const Item = ({ title, uri, content, onTitleClick, onLinkClick }: {
+    title: string; content: string; uri:string; onTitleClick: () => void; onLinkClick: () => void;
 }) => {
     return (
         <div style={styles.itemContainer} draggable="true">
@@ -14,7 +15,7 @@ const Item = ({ title, uri, summary, onTitleClick, onLinkClick }: {
                 </a>
             </div>
             <div style={styles.summaryContainer}>
-            {summary}
+            {content}
             </div>
             {/* <p>{summary}</p> */}
             <button onClick={onLinkClick}>link it</button>
@@ -23,9 +24,12 @@ const Item = ({ title, uri, summary, onTitleClick, onLinkClick }: {
 };
 
 
-// 列表组件
+
+
 
 export const ItemList = ({ app }: { app: App }) => {
+    const [items, setItems] = React.useState<Array<{ title: string; uri: string; content: string }>>([]);
+
     const openMarkdownFile = (uri: string) => {
         const file = app.vault.getAbstractFileByPath(uri);
         if (file instanceof TFile) {
@@ -35,55 +39,46 @@ export const ItemList = ({ app }: { app: App }) => {
         }
     };
 
-    const items = [
-        {
-            title: '1.00 | 骨干',
-            uri: 'Omnivore/骨干.md',
-            summary: 'This is a summary of item 1.',
-        },
-        {
-            title: '0.95 | Obsidian卡片视图',
-            uri: 'Omnivore/Obsidian卡片视图.md',
-            summary: '一款卡片风的笔记插件（类似于Notion的Gallery视图）',
-        },
-        {
-            title: '0.70 | 忍不住想问一句这是Obsidian还是浏览器！',
-            uri: 'Omnivore/忍不住想问一句这是Obsidian还是浏览器！.md',
-            summary: '插件名为Obsidian 搜索',
-        },
-    ];
+
+
+    React.useEffect(() => {
+        const fetchItems = async () => {
+            const result = await difySearch("数据", "app-9DUm5xfKV72ciiF8OD7OrNkv", "abc-123");
+            setItems(result);
+        };
+        fetchItems();
+    }, []);
+
+    // console.log(items);
+
 
     const handleTitleClick = (uri: string) => {
-        console.log('open file', uri)
+        console.log('open file', uri);
         openMarkdownFile(uri);
     };
 
-
     const handleLinkClick = (uri: string) => {
-        console.log('link it', uri)
+        console.log('link it', uri);
     };
-
 
     return (
         <div style={styles.listContainer}>
             <div>
                 123
             </div>
-            {items.map((item, index) => (
+            {items.map((item: { title: string; uri: string; content: string; }, index: React.Key | null | undefined) => (
                 <Item
                     key={index}
                     title={item.title}
                     uri={item.uri}
-                    summary={item.summary}
+                    content={item.content}
                     onTitleClick={() => handleTitleClick(item.uri)}
                     onLinkClick={() => handleLinkClick(item.uri)}
                 />
             ))}
         </div>
-
     );
 };
-
 // 简单的样式对象
 const styles = {
     itemContainer: {
