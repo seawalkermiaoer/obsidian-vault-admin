@@ -61,15 +61,15 @@ export class VADiscoveryView extends ItemView {
 
     }));
 
-    // this.root = createRoot(this.containerEl.children[1]);
-    // this.root.render(
-    //   <AppContext.Provider value={this.app}>
-    //     <StrictMode>
-    //       <ItemList
-    //         app={this.app} />
-    //     </StrictMode>
-    //   </AppContext.Provider>
-    // );
+    this.root = createRoot(this.containerEl.children[1]);
+    this.root.render(
+      <AppContext.Provider value={this.app}>
+        <StrictMode>
+          <ItemList
+            app={this.app} />
+        </StrictMode>
+      </AppContext.Provider>
+    );
 
 
   }

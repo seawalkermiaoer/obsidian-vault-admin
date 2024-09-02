@@ -2,11 +2,8 @@
 import axios from 'axios';
 import { parseDifyResp } from 'src/models/difySearchResp';
 import { getObsidianPath } from './dify_mapping'; 
-import { count } from 'console';
-import { title } from 'process';
 
-// If using TypeScript, you may need to install the type definitions:
-// npm install --save-dev @types/axios
+
 export async function difySearch(query: string, apiKey: string, userId: string) {
     console.log(query, apiKey, userId)
     try {
