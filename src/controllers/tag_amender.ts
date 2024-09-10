@@ -38,7 +38,7 @@ async function upload_file(vault: Vault, file: TFile) {
 
     vault.process(file, (data) => {
         console.log('upload to dify for: ', file.path)
-        console.log(data)
+        // console.log(data)
         const lines = data.split('\n');
         const requestData: UploadRequest = {
             name: file.path,
@@ -48,7 +48,7 @@ async function upload_file(vault: Vault, file: TFile) {
                 mode: 'automatic',
             },
         };
-        console.log(requestData)
+        // console.log(requestData)
 
         upload_to_dify(datasetId, apiKey, requestData)
             .then((resp) => {
@@ -58,7 +58,7 @@ async function upload_file(vault: Vault, file: TFile) {
                 console.error('Error uploading:', error);
             });
         console.log('upload done.')
-        return ""
+        return data
     })
 
 
@@ -90,7 +90,7 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
     // upload to dify
     for (let i = 0; i < files.length; i++) {
         await upload_file(this.app.vault, files[i])
-        break
+        // break
     }
 
 
