@@ -2,6 +2,7 @@ import { TFile, Vault } from "obsidian";
 import VaultAdminPlugin from "../../main";
 
 import { format } from 'date-fns';
+import { upload_to_dify, UploadRequest } from "src/libs/upload_to_dify";
 
 function is_omnivore_file(path: string, omnivoreFolder: string) {
     return path.startsWith(omnivoreFolder)
@@ -28,6 +29,43 @@ function tagfy(vault: Vault, file: TFile): Promise<string> {
     })
 }
 
+async function upload_file(vault: Vault, file: TFile) {
+
+    // 示例调用
+    const datasetId = '50004fe8-3261-4e05-af38-dbfc79accfd6';
+    const apiKey = 'dataset-HiLIiOQZyvXrtFEKm4rxEkn3';
+
+
+    vault.process(file, (data) => {
+        console.log('upload to dify for: ', file.path)
+        console.log(data)
+        const lines = data.split('\n');
+        const requestData: UploadRequest = {
+            name: file.path,
+            text: lines.join('\n'),
+            indexing_technique: 'economy',
+            process_rule: {
+                mode: 'automatic',
+            },
+        };
+        console.log(requestData)
+
+        upload_to_dify(datasetId, apiKey, requestData)
+            .then((resp) => {
+                console.log('Upload successful:', resp);
+            })
+            .catch((error) => {
+                console.error('Error uploading:', error);
+            });
+        console.log('upload done.')
+        return ""
+    })
+
+
+
+}
+
+
 export async function amend_tag(plugin: VaultAdminPlugin) {
     const lastAmendAt = plugin.settings.amendAt
     const lastAmendAtTs: number = convertStringToTs(lastAmendAt);
@@ -37,6 +75,7 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
 
     const now = new Date();
     const ts = format(now, "yyyy-MM-dd'T'HH:mm:ss");
+
     for (let i = 0; i < files.length; i++) {
         const path = files[i].path
         const mtime = files[i].stat.ctime
@@ -47,4 +86,12 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
     }
     plugin.settings.amendAt = ts
     await plugin.saveSettings();
+
+    // upload to dify
+    for (let i = 0; i < files.length; i++) {
+        await upload_file(this.app.vault, files[i])
+        break
+    }
+
+
 }
