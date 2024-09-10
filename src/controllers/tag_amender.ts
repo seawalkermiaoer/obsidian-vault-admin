@@ -88,10 +88,10 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
     await plugin.saveSettings();
 
     // upload to dify
-    for (let i = 0; i < files.length; i++) {
-        await upload_file(this.app.vault, files[i])
-        // break
-    }
+    // for (let i = 0; i < files.length; i++) {
+    //     await upload_file(this.app.vault, files[i])
+    //     // break
+    // }
 
 
 }

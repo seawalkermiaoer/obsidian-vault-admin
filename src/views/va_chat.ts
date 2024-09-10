@@ -24,11 +24,10 @@ export class VAChatView extends ItemView {
 
     // 创建并嵌入 iframe
     const iframe = document.createElement('iframe');
-    iframe.src = "http://localhost/chatbot/WlJpO3knpI2beGDe";
+    iframe.src = "http://localhost/chatbot/jmbojIdbFHOK3muZ";
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.minHeight = '700px';
-    iframe.frameBorder = "0";
     iframe.allow = "microphone";
 
     container.appendChild(iframe);
