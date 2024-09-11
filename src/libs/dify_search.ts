@@ -32,8 +32,6 @@ export async function difySearch(query: string, apiKey: string, userId: string) 
             content: result.content,
             document_id: result.metadata.document_id
         }));
-        // console.log(results);
-        // console.log(parsedResults);
         const g = groupAndCountByTitle(parsedResults);
         // console.log(g);
         const ret = g.map((item) => ({
@@ -41,7 +39,7 @@ export async function difySearch(query: string, apiKey: string, userId: string) 
             count: item.count,
             content: item.content,
             title: item.title
-        }))
+        })).filter((item) => item.title.indexOf(query) === -1 );
         return ret;
 
     } catch (error) {

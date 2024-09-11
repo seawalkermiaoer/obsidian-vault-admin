@@ -33,14 +33,7 @@ export class VADiscoveryView extends ItemView {
   async onOpen() {
     this.icon = "link-2";
 
-    // const container = this.containerEl.children[1];
-    // container.empty();
-    // container.createEl("h4", { text: "VIEW_TYPE_VA_DISCOVERY view" });
     console.log("onOpen");
-
-
-
-
 
     this.registerEvent(this.app.workspace.on('file-open', (file: TFile | null) => {
       // console.log('a new file has open the arena: ' + file?.name)
@@ -84,7 +77,6 @@ export class VADiscoveryView extends ItemView {
 
 import * as React from "react";
 import { App, Notice } from 'obsidian'
-import { timeLog } from "console";
 import { difySearch } from "src/libs/dify_search";
 
 // 单个列表项组件
@@ -102,7 +94,7 @@ const Item = ({ title, uri, content, onTitleClick, onLinkClick }: {
         {content}
       </div>
       {/* <p>{summary}</p> */}
-      <button onClick={onLinkClick}>link it</button>
+      {/* <button onClick={onLinkClick}>link it</button> */}
     </div>
   );
 };
@@ -148,7 +140,7 @@ export const ItemList = ({ app }: { app: App }) => {
   return (
     <div style={styles.listContainer}>
       <div>
-        123
+        discovery
       </div>
       {items.map((item: { title: string; uri: string; content: string; }, index: React.Key | null | undefined) => (
         <Item
