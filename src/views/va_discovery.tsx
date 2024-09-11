@@ -127,7 +127,7 @@ export const ItemList = ({ app }: { app: App }) => {
 
   React.useEffect(() => {
     const fetchItems = async () => {
-      const result = await difySearch(s, "app-9DUm5xfKV72ciiF8OD7OrNkv", "abc-123");
+      const result = await difySearch(s, "app-9DUm5xfKV72ciiF8OD7OrNkv", "search_from_obsidian");
       setItems(result);
     };
     fetchItems();

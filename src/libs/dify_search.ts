@@ -1,7 +1,6 @@
 
 import axios from 'axios';
 import { parseDifyResp } from 'src/models/difySearchResp';
-import { getObsidianPath } from './dify_mapping'; 
 
 
 export async function difySearch(query: string, apiKey: string, userId: string) {
@@ -38,7 +37,7 @@ export async function difySearch(query: string, apiKey: string, userId: string) 
         const g = groupAndCountByTitle(parsedResults);
         // console.log(g);
         const ret = g.map((item) => ({
-            uri: getObsidianPath(item.title),
+            uri: item.title,
             count: item.count,
             content: item.content,
             title: item.title
