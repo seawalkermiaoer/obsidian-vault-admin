@@ -63,7 +63,6 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                         // save frequency
                         this.plugin.settings.frequency = frequency
                         await this.plugin.saveSettings()
-
                         // this.plugin.scheduleSync()
                     }),
             )
