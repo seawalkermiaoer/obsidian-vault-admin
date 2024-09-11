@@ -81,9 +81,89 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                     }),
             )
 
-        containerEl.createEl('h3', { text: 'Discovering Connections in Notes' })
+        containerEl.createEl('h3', { text: '同步笔记至Dify' })
 
-        containerEl.createEl('h3', { text: 'Chat with a Single Note or the Valut' })
+        new Setting(containerEl)
+            .setName('Dify 知识库id')
+            .addText(text => text
+                .setPlaceholder('dataset id')
+                // .setValue(this.plugin.settings.omnivoreFolder)
+                .onChange(async (value) => {
+                    // this.plugin.settings.omnivoreFolder = value;
+                    await this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName('Dify 知识库 API 密钥')
+            .addText(text => text
+                .setPlaceholder('api secret')
+                // .setValue(this.plugin.settings.omnivoreFolder)
+                .onChange(async (value) => {
+                    // this.plugin.settings.omnivoreFolder = value;
+                    await this.plugin.saveSettings();
+                }));
+
+
+        new Setting(containerEl)
+            .setName('同步的目录(不填即是整个vault)')
+            .addText(text => text
+                .setPlaceholder('default the total vault')
+                .onChange(async (value) => {
+                    await this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName('启动后自动同步')
+            .addToggle((toggle) =>
+                toggle
+                    // .setValue(this.plugin.settings.amendOnStart)
+                    .onChange(async (value) => {
+                        // this.plugin.settings.amendOnStart = value
+                        await this.plugin.saveSettings()
+                    }),
+            )
+
+        new Setting(containerEl)
+            .setName('上次同步的时间')
+            .addMomentFormat((momentFormat) =>
+                momentFormat
+                    .setPlaceholder('Last Sync')
+                    // .setValue(this.plugin.settings.amendAt)
+                    .setDefaultFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    .onChange(async (value) => {
+                        // this.plugin.settings.amendAt = value
+                        await this.plugin.saveSettings()
+                    }),
+            )
+
+        containerEl.createEl('h3', { text: 'Discovering Connections in Notes' })
+        new Setting(containerEl)
+            .setName('相似笔记搜索工作流BaseURL')
+            .addText(text => text
+                .setPlaceholder('default the total vault')
+                .setValue('http://localhost/v1')
+                .onChange(async (value) => {
+                    await this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName('相似笔记搜索工作流 API 密钥')
+            .addText(text => text
+                .setPlaceholder('default the total vault')
+                .onChange(async (value) => {
+                    await this.plugin.saveSettings();
+                }));
+
+
+
+        containerEl.createEl('h3', { text: 'Chat with the Notes' })
+        new Setting(containerEl)
+            .setName('与笔记对话工作流URL')
+            .addText(text => text
+                .setPlaceholder('http://localhost/chatbot/jmbojIdbFHOK3muZ')
+                .onChange(async (value) => {
+                    await this.plugin.saveSettings();
+                }));
 
     }
 }
