@@ -63,10 +63,9 @@ export class VaultAdminSettingTab extends PluginSettingTab {
         new Setting(containerEl)
         .setName(t('Dify BaseUrl'))
         .addText(text => text
-            .setPlaceholder('Dify BaseUrl')
-            .setValue("http://localhost/v1")
+            .setValue(this.plugin.settings.difyBaseUrl)
             .onChange(async (value) => {
-                // this.plugin.settings.omnivoreFolder = value;
+                this.plugin.settings.difyBaseUrl = value;
                 await this.plugin.saveSettings();
             }));
 
@@ -76,9 +75,9 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             .setName(t('Dify Dataset ID'))
             .addText(text => text
                 .setPlaceholder('dataset id')
-                // .setValue(this.plugin.settings.omnivoreFolder)
+                .setValue(this.plugin.settings.difyDatasetId)
                 .onChange(async (value) => {
-                    // this.plugin.settings.omnivoreFolder = value;
+                    this.plugin.settings.difyDatasetId = value;
                     await this.plugin.saveSettings();
                 }));
 
@@ -86,9 +85,9 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             .setName(t('Dify Dataset API Secret'))
             .addText(text => text
                 .setPlaceholder('api secret')
-                // .setValue(this.plugin.settings.omnivoreFolder)
+                .setValue(this.plugin.settings.difyDatasetApiSecret)
                 .onChange(async (value) => {
-                    // this.plugin.settings.omnivoreFolder = value;
+                    this.plugin.settings.difyDatasetApiSecret = value;
                     await this.plugin.saveSettings();
                 }));
 
@@ -97,7 +96,9 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             .setName(t('Obsidian Notes Dir'))
             .addText(text => text
                 .setPlaceholder('default the total vault')
+                .setValue(this.plugin.settings.obsidianSyncFolder)
                 .onChange(async (value) => {
+                    this.plugin.settings.obsidianSyncFolder = value;
                     await this.plugin.saveSettings();
                 }));
 
@@ -105,9 +106,9 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             .setName(t('Sync On Start'))
             .addToggle((toggle) =>
                 toggle
-                    // .setValue(this.plugin.settings.amendOnStart)
+                    .setValue(this.plugin.settings.syncOnStart)
                     .onChange(async (value) => {
-                        // this.plugin.settings.amendOnStart = value
+                        this.plugin.settings.syncOnStart = value
                         await this.plugin.saveSettings()
                     }),
             )
@@ -117,10 +118,10 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             .addMomentFormat((momentFormat) =>
                 momentFormat
                     .setPlaceholder('Last Sync')
-                    // .setValue(this.plugin.settings.amendAt)
+                    .setValue(this.plugin.settings.lastSyncAt)
                     .setDefaultFormat("yyyy-MM-dd'T'HH:mm:ss")
                     .onChange(async (value) => {
-                        // this.plugin.settings.amendAt = value
+                        this.plugin.settings.lastSyncAt = value
                         await this.plugin.saveSettings()
                     }),
             )
@@ -129,8 +130,11 @@ export class VaultAdminSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName(t('Similar Notes Search Workflow API Secret'))
+            
             .addText(text => text
+                .setValue(this.plugin.settings.wfSearchApiSecret)
                 .onChange(async (value) => {
+                    this.plugin.settings.wfSearchApiSecret = value;
                     await this.plugin.saveSettings();
                 }));
 
@@ -140,8 +144,10 @@ export class VaultAdminSettingTab extends PluginSettingTab {
         new Setting(containerEl)
             .setName(t('Chat Workflow URL'))
             .addText(text => text
-                .setPlaceholder('http://localhost/chatbot/jmbojIdbFHOK3muZ')
+                .setValue(this.plugin.settings.wfChatUrl)
+                .setPlaceholder('chat workflow url')
                 .onChange(async (value) => {
+                    this.plugin.settings.wfChatUrl = value;
                     await this.plugin.saveSettings();
                 }));
 

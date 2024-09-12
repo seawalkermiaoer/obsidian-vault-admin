@@ -3,11 +3,11 @@ import axios from 'axios';
 import { parseDifyResp } from 'src/models/difySearchResp';
 
 
-export async function difySearch(query: string, apiKey: string, userId: string) {
+export async function difySearch(url:string, query: string, apiKey: string, userId: string) {
     console.log(query, apiKey, userId)
     try {
         const response = await axios.post(
-            'http://localhost/v1/workflows/run',
+            url,
             {
                 inputs: {
                     "query": `${query}`,

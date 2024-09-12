@@ -5,6 +5,8 @@ import { StrictMode } from "react";
 import { Root, createRoot } from "react-dom/client";
 import { ReactView } from "./components/TestView";
 
+import { VaultAdminPluginSettings } from 'src/models/pluginSettings';
+
 // import { ItemList } from "./components/SearchListView";
 
 import { AppContext } from "src/context";
@@ -18,8 +20,10 @@ let s = '数据'
 
 export class VADiscoveryView extends ItemView {
   root: Root | null = null;
-  constructor(leaf: WorkspaceLeaf) {
+  settings: VaultAdminPluginSettings;
+  constructor(leaf: WorkspaceLeaf, settings: VaultAdminPluginSettings ) {
     super(leaf);
+    this.settings = settings
   }
 
   getViewType() {
@@ -46,7 +50,7 @@ export class VADiscoveryView extends ItemView {
         <AppContext.Provider value={this.app}>
           <StrictMode>
             <ItemList
-              app={this.app} />
+              app={this.app} settings={this.settings} />
           </StrictMode>
         </AppContext.Provider>
       );
@@ -56,10 +60,10 @@ export class VADiscoveryView extends ItemView {
 
     this.root = createRoot(this.containerEl.children[1]);
     this.root.render(
-      <AppContext.Provider value={this.app}>
+      <AppContext.Provider value={this.app} >
         <StrictMode>
           <ItemList
-            app={this.app} />
+            app={this.app} settings={this.settings}/>
         </StrictMode>
       </AppContext.Provider>
     );
@@ -103,7 +107,7 @@ const Item = ({ title, uri, content, onTitleClick, onLinkClick }: {
 
 
 
-export const ItemList = ({ app }: { app: App }) => {
+export const ItemList = ({ app, settings }: { app: App, settings: VaultAdminPluginSettings }) => {
   const [items, setItems] = React.useState<Array<{ title: string; uri: string; content: string }>>([]);
 
   const openMarkdownFile = (uri: string) => {
@@ -119,7 +123,7 @@ export const ItemList = ({ app }: { app: App }) => {
 
   React.useEffect(() => {
     const fetchItems = async () => {
-      const result = await difySearch(s, "app-9DUm5xfKV72ciiF8OD7OrNkv", "search_from_obsidian");
+      const result = await difySearch(s, settings.difyBaseUrl + '/workflows/run' ,settings.wfSearchApiSecret, "search_from_obsidian");
       setItems(result);
     };
     fetchItems();

@@ -2,26 +2,12 @@ import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Set
 
 import t from 'src/l10n/locale';
 import { VaultAdminSettingTab } from 'src/settings_tab';
-import { amend_tag } from 'src/controllers/tag_amender';
+import { amend_tag, sync_dify } from 'src/controllers/tag_amender';
 
 import { VIEW_TYPE_VA_CHAT, VAChatView } from 'src/views/va_chat';
 import { VIEW_TYPE_VA_DISCOVERY, VADiscoveryView } from 'src/views/va_discovery';
 
-
-// Remember to rename these classes and interfaces!
-
-interface VaultAdminPluginSettings {
-	omnivoreFolder: string;
-	amendAt: string;
-	amendOnStart: boolean
-}
-
-const DEFAULT_SETTINGS: VaultAdminPluginSettings = {
-	omnivoreFolder: 'Omnivore',
-	amendAt: '2022-05-01T00:00:00',
-	amendOnStart: true
-}
-
+import { VaultAdminPluginSettings, DEFAULT_SETTINGS } from 'src/models/pluginSettings';
 
 
 
@@ -37,11 +23,8 @@ export default class VaultAdminPlugin extends Plugin {
 		);
 		this.registerView(
 			VIEW_TYPE_VA_DISCOVERY,
-			(leaf) => new VADiscoveryView(leaf)
+			(leaf) => new VADiscoveryView(leaf, this.settings)
 		);
-
-
-
 
 
 		const iconId = 'VA:tag-amender'
@@ -51,6 +34,7 @@ export default class VaultAdminPlugin extends Plugin {
 			// 对目录里的所有内容进行tag整理。
 			new Notice('start to clean the tags in Omnivore folder!');
 			amend_tag(this);
+			sync_dify(this);
 		})
 
 

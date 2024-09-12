@@ -29,13 +29,9 @@ function tagfy(vault: Vault, file: TFile): Promise<string> {
     })
 }
 
-async function upload_file(vault: Vault, file: TFile) {
+async function upload_file(url: string, datasetId:string, apiSecret:string, vault: Vault, file: TFile) {
 
     // 示例调用
-    const datasetId = '50004fe8-3261-4e05-af38-dbfc79accfd6';
-    const apiKey = 'dataset-HiLIiOQZyvXrtFEKm4rxEkn3';
-
-
     vault.process(file, (data) => {
         console.log('upload to dify for: ', file.path)
         // console.log(data)
@@ -48,9 +44,7 @@ async function upload_file(vault: Vault, file: TFile) {
                 mode: 'automatic',
             },
         };
-        // console.log(requestData)
-
-        upload_to_dify(datasetId, apiKey, requestData)
+        upload_to_dify(url, datasetId, apiSecret, requestData)
             .then((resp) => {
                 console.log('Upload successful:', resp);
             })
@@ -62,6 +56,35 @@ async function upload_file(vault: Vault, file: TFile) {
     })
 
 
+
+}
+
+
+export async function sync_dify(plugin: VaultAdminPlugin) {
+    const lastSyncAt = plugin.settings.lastSyncAt
+    const lastSyncAtTs: number = convertStringToTs(lastSyncAt);
+    const obsidianSyncFolder = plugin.settings.obsidianSyncFolder
+
+    const files = this.app.vault.getMarkdownFiles()
+
+    const url = plugin.settings.difyBaseUrl
+    const datasetId = plugin.settings.difyDatasetId
+    const apiSecret = plugin.settings.difyDatasetApiSecret
+    //upload to dify
+    for (let i = 0; i < files.length; i++) {
+        const path = files[i].path
+        const mtime = files[i].stat.ctime
+        if (is_omnivore_file(path, obsidianSyncFolder) && is_need_amend(mtime, lastSyncAtTs)) {
+            console.log(path);
+            
+            await upload_file(url, datasetId, apiSecret, this.app.vault, files[i])
+        }
+    }
+
+    const now = new Date();
+    const ts = format(now, "yyyy-MM-dd'T'HH:mm:ss");
+    plugin.settings.lastSyncAt = ts
+    await plugin.saveSettings();
 
 }
 
@@ -86,12 +109,5 @@ export async function amend_tag(plugin: VaultAdminPlugin) {
     }
     plugin.settings.amendAt = ts
     await plugin.saveSettings();
-
-    // upload to dify
-    // for (let i = 0; i < files.length; i++) {
-    //     await upload_file(this.app.vault, files[i])
-    //     // break
-    // }
-
 
 }
