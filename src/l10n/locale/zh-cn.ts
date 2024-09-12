@@ -5,11 +5,13 @@ export default {
     //settings_tab.ts
 
     // Omnivore settings
-    "Omnivore Settings": "整理 Omnivore 文档中的异常标签",
+    "Omnivore Settings": "整理Omnivore文档中的异常标签",
     "Omnivore Folder": "Omnivore 目录",
-    "Omnivore Last TagAmender": "Omnivore 标签最后一次整理时间戳",
+    "Omnivore TagAmender On Startup": "启动时自动整理标签",
+    "Omnivore Tag Last Amend": "Omnivore 标签最后一次整理时间戳",
 
     "Dify Settings": "Dify 设置",
+
     //base_url
     "Dify BaseUrl": "Dify 基础Url",
     "Sync Notes To Dify": "同步笔记到Dify",

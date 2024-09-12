@@ -13,17 +13,13 @@ import { VIEW_TYPE_VA_DISCOVERY, VADiscoveryView } from 'src/views/va_discovery'
 interface VaultAdminPluginSettings {
 	omnivoreFolder: string;
 	amendAt: string;
-	amendOnStart: boolean;
-	frequency: number;
-
-	
+	amendOnStart: boolean
 }
 
 const DEFAULT_SETTINGS: VaultAdminPluginSettings = {
 	omnivoreFolder: 'Omnivore',
 	amendAt: '2023-05-01T00:00:00',
-	amendOnStart: true,
-	frequency: 1,
+	amendOnStart: true
 }
 
 

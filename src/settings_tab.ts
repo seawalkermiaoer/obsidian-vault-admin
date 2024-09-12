@@ -44,28 +44,6 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings()
                     }),
             )
-        new Setting(containerEl)
-            .setName('Frequency')
-            // .setDesc(
-            //     'Enter the frequency in minutes to sync wit',
-            // )
-            .addText((text) =>
-                text
-                    .setPlaceholder('Enter the frequency')
-                    .setValue(this.plugin.settings.frequency.toString())
-                    .onChange(async (value) => {
-                        // validate frequency
-                        const frequency = parseInt(value)
-                        if (isNaN(frequency)) {
-                            new Notice('Frequency must be a positive integer')
-                            return
-                        }
-                        // save frequency
-                        this.plugin.settings.frequency = frequency
-                        await this.plugin.saveSettings()
-                        // this.plugin.scheduleSync()
-                    }),
-            )
 
         new Setting(containerEl)
             .setName(t('Omnivore Tag Last Amend'))
