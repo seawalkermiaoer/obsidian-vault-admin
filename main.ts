@@ -18,7 +18,7 @@ interface VaultAdminPluginSettings {
 
 const DEFAULT_SETTINGS: VaultAdminPluginSettings = {
 	omnivoreFolder: 'Omnivore',
-	amendAt: '2023-05-01T00:00:00',
+	amendAt: '2022-05-01T00:00:00',
 	amendOnStart: true
 }
 
