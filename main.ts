@@ -16,6 +16,7 @@ interface VaultAdminPluginSettings {
 	amendOnStart: boolean;
 	frequency: number;
 
+	
 }
 
 const DEFAULT_SETTINGS: VaultAdminPluginSettings = {

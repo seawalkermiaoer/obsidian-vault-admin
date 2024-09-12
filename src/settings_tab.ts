@@ -80,10 +80,22 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                     }),
             )
 
-        containerEl.createEl('h3', { text: '同步笔记至Dify' })
+        containerEl.createEl('h3', { text: t('Dify Settings') })
 
         new Setting(containerEl)
-            .setName('Dify 知识库id')
+        .setName(t('Dify BaseUrl'))
+        .addText(text => text
+            .setPlaceholder('Dify BaseUrl')
+            .setValue("http://localhost/v1")
+            .onChange(async (value) => {
+                // this.plugin.settings.omnivoreFolder = value;
+                await this.plugin.saveSettings();
+            }));
+
+        containerEl.createEl('h2', { text: t('Sync Notes To Dify') })
+
+        new Setting(containerEl)
+            .setName(t('Dify Dataset ID'))
             .addText(text => text
                 .setPlaceholder('dataset id')
                 // .setValue(this.plugin.settings.omnivoreFolder)
@@ -93,7 +105,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
-            .setName('Dify 知识库 API 密钥')
+            .setName(t('Dify Dataset API Secret'))
             .addText(text => text
                 .setPlaceholder('api secret')
                 // .setValue(this.plugin.settings.omnivoreFolder)
@@ -104,7 +116,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
 
 
         new Setting(containerEl)
-            .setName('同步的目录(不填即是整个vault)')
+            .setName(t('Obsidian Notes Dir'))
             .addText(text => text
                 .setPlaceholder('default the total vault')
                 .onChange(async (value) => {
@@ -112,7 +124,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                 }));
 
         new Setting(containerEl)
-            .setName('启动后自动同步')
+            .setName(t('Sync On Start'))
             .addToggle((toggle) =>
                 toggle
                     // .setValue(this.plugin.settings.amendOnStart)
@@ -123,7 +135,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
             )
 
         new Setting(containerEl)
-            .setName('上次同步的时间')
+            .setName(t('Last Sync Time'))
             .addMomentFormat((momentFormat) =>
                 momentFormat
                     .setPlaceholder('Last Sync')
@@ -135,29 +147,20 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                     }),
             )
 
-        containerEl.createEl('h3', { text: 'Discovering Connections in Notes' })
-        new Setting(containerEl)
-            .setName('相似笔记搜索工作流BaseURL')
-            .addText(text => text
-                .setPlaceholder('default the total vault')
-                .setValue('http://localhost/v1')
-                .onChange(async (value) => {
-                    await this.plugin.saveSettings();
-                }));
+        containerEl.createEl('h2', { text: t('Discovering Connections in Notes') })
 
         new Setting(containerEl)
-            .setName('相似笔记搜索工作流 API 密钥')
+            .setName(t('Similar Notes Search Workflow API Secret'))
             .addText(text => text
-                .setPlaceholder('default the total vault')
                 .onChange(async (value) => {
                     await this.plugin.saveSettings();
                 }));
 
 
 
-        containerEl.createEl('h3', { text: 'Chat with the Notes' })
+        containerEl.createEl('h2', { text: t('Chat with the Notes') })
         new Setting(containerEl)
-            .setName('与笔记对话工作流URL')
+            .setName(t('Chat Workflow URL'))
             .addText(text => text
                 .setPlaceholder('http://localhost/chatbot/jmbojIdbFHOK3muZ')
                 .onChange(async (value) => {
