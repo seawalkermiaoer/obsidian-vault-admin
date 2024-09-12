@@ -24,7 +24,7 @@ function tagfy(vault: Vault, file: TFile): Promise<string> {
         console.log('amending tag for ', file.path)
         const lines = data.split('\n');
         let ret = lines.map(line => (line.startsWith("#") || !line.includes("#")) ? line : line.replace("#", " "));
-        console.log(ret)
+        // console.log(ret)
         return ret.join('\n');
     })
 }
@@ -34,7 +34,6 @@ async function upload_file(url: string, datasetId:string, apiSecret:string, vaul
     // 示例调用
     vault.process(file, (data) => {
         console.log('upload to dify for: ', file.path)
-        // console.log(data)
         const lines = data.split('\n');
         const requestData: UploadRequest = {
             name: file.path,
@@ -51,7 +50,7 @@ async function upload_file(url: string, datasetId:string, apiSecret:string, vaul
             .catch((error) => {
                 console.error('Error uploading:', error);
             });
-        console.log('upload done.')
+        // console.log('upload done.')
         return data
     })
 
@@ -76,7 +75,6 @@ export async function sync_dify(plugin: VaultAdminPlugin) {
         const mtime = files[i].stat.ctime
         if (is_omnivore_file(path, obsidianSyncFolder) && is_need_amend(mtime, lastSyncAtTs)) {
             console.log(path);
-            
             await upload_file(url, datasetId, apiSecret, this.app.vault, files[i])
         }
     }

@@ -27,23 +27,25 @@ export default class VaultAdminPlugin extends Plugin {
 		);
 
 
-		const iconId = 'VA:tag-amender'
+		const iconId = t('VA:tag-amender')
 		// This creates an icon in the left ribbon.
 		this.addRibbonIcon("book-marked", iconId, async (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			// 对目录里的所有内容进行tag整理。
 			new Notice('start to clean the tags in Omnivore folder!');
+			// 清理标签
 			amend_tag(this);
+			// 上传到dify
 			sync_dify(this);
 		})
 
 
-		const discoveryIcon = 'VA:discovery'
+		const discoveryIcon = t('VA Discovery View')
 		this.addRibbonIcon("link-2", discoveryIcon, async (evt: MouseEvent) => {
 			this.openDiscoveryView();
 		});
 
-		const chatIcon = 'VA:chat'
+		const chatIcon = t('VA Chat View')
 		this.addRibbonIcon("message-circle", chatIcon, async (evt: MouseEvent) => {
 			this.openChatView();
 		});
@@ -55,7 +57,7 @@ export default class VaultAdminPlugin extends Plugin {
 		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
 		// Using this function will automatically remove the event listener when this plugin is disabled.
 		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			// console.log('click', evt);
+			//pass
 		});
 
 	}

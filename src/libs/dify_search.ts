@@ -3,8 +3,8 @@ import axios from 'axios';
 import { parseDifyResp } from 'src/models/difySearchResp';
 
 
-export async function difySearch(url:string, query: string, apiKey: string, userId: string) {
-    console.log(query, apiKey, userId)
+export async function difySearch(query: string, url:string, apiKey: string, userId: string) {
+    // console.log(url)
     try {
         const response = await axios.post(
             url,
@@ -22,10 +22,7 @@ export async function difySearch(url:string, query: string, apiKey: string, user
                 }
             }
         );
-        // console.log(response.data)
         const results = parseDifyResp(response.data);
-        // console.log(Array.isArray(results));
-
         // Parse results and extract title, content, and document_id
         const parsedResults = (results as any[]).map((result: { title: string; content: string; metadata: { document_id: string } }) => ({
             title: result.title,
@@ -33,7 +30,6 @@ export async function difySearch(url:string, query: string, apiKey: string, user
             document_id: result.metadata.document_id
         }));
         const g = groupAndCountByTitle(parsedResults);
-        // console.log(g);
         const ret = g.map((item) => ({
             uri: item.title,
             count: item.count,

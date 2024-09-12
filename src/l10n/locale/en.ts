@@ -33,7 +33,8 @@ export default {
     //Chat to the notes
     "Chat Workflow URL": "Chat Workflow URL",   
 
-    // va chat
+    //
+    "VA:tag-amender": "VA:tag-amender",
     "VA Chat View": "VA Chat",
     "VA Discovery View": "VA Discovery",
 

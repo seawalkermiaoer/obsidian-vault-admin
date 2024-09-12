@@ -31,6 +31,10 @@ export default {
     "Similar Notes Search Workflow API Secret": "相似笔记搜索工作流的API密钥",
     "Chat with the Notes": "与笔记对话",
     //Chat to the notes
-    "Chat Workflow URL": "与笔记对话的工作流URL",   
+    "Chat Workflow URL": "与笔记对话的工作流URL",
+
+    "VA:tag-amender":"VA:整理",
+    "VA Chat View": "VA:对话",
+    "VA Discovery View": "VA:发现",
 
 };

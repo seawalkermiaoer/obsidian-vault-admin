@@ -143,9 +143,6 @@ export const ItemList = ({ app, settings }: { app: App, settings: VaultAdminPlug
 
   return (
     <div style={styles.listContainer}>
-      <div>
-        discovery
-      </div>
       {items.map((item: { title: string; uri: string; content: string; }, index: React.Key | null | undefined) => (
         <Item
           key={index}
