@@ -139,6 +139,8 @@ export const FuncsViews = ({ app, settings }: { app: App, settings: VaultAdminPl
         }
       );
       const text = response.data['data']['outputs']['text']
+      console.log(text)
+      
       setText(text);
       return text;
 
