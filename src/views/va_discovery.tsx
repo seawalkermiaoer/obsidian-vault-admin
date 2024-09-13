@@ -15,13 +15,14 @@ import { AppContext } from "src/context";
 export const VIEW_TYPE_VA_DISCOVERY = "va-discovery-view";
 
 
-let s = '数据'
+let query_to_search = ''
+let uri = ''
 
 
 export class VADiscoveryView extends ItemView {
   root: Root | null = null;
   settings: VaultAdminPluginSettings;
-  constructor(leaf: WorkspaceLeaf, settings: VaultAdminPluginSettings ) {
+  constructor(leaf: WorkspaceLeaf, settings: VaultAdminPluginSettings) {
     super(leaf);
     this.settings = settings
   }
@@ -41,14 +42,18 @@ export class VADiscoveryView extends ItemView {
 
     this.registerEvent(this.app.workspace.on('file-open', (file: TFile | null) => {
       // console.log('a new file has open the arena: ' + file?.name)
-      s = file?.name ?? ''
-      console.log("event:" + s)
-      this.root?.unmount
+      query_to_search = file?.name ?? ''
+      uri = file?.path ?? ''
+
+      console.log("event:" + query_to_search)
+      this.root?.unmount()
 
       this.root = createRoot(this.containerEl.children[1]);
       this.root.render(
         <AppContext.Provider value={this.app}>
           <StrictMode>
+            <FuncsViews
+              app={this.app} settings={this.settings} />
             <ItemList
               app={this.app} settings={this.settings} />
           </StrictMode>
@@ -62,15 +67,16 @@ export class VADiscoveryView extends ItemView {
     this.root.render(
       <AppContext.Provider value={this.app} >
         <StrictMode>
+          <FuncsViews
+            app={this.app} settings={this.settings} />
           <ItemList
-            app={this.app} settings={this.settings}/>
+            app={this.app} settings={this.settings} />
         </StrictMode>
       </AppContext.Provider>
     );
 
 
   }
-
   async onClose() {
     this.root?.unmount();
   }
@@ -82,6 +88,8 @@ export class VADiscoveryView extends ItemView {
 import * as React from "react";
 import { App, Notice } from 'obsidian'
 import { difySearch } from "src/libs/dify_search";
+
+import AutoResizeTextarea from 'src/views/components/AutoResizeTextarea';
 
 // 单个列表项组件
 const Item = ({ title, uri, content, onTitleClick, onLinkClick }: {
@@ -103,9 +111,79 @@ const Item = ({ title, uri, content, onTitleClick, onLinkClick }: {
   );
 };
 
+import axios from 'axios';
+import { parseDifyResp } from 'src/models/difySearchResp';
+
+
+export const FuncsViews = ({ app, settings }: { app: App, settings: VaultAdminPluginSettings }) => {
+  const [text, setText] = React.useState<string>('');
+
+
+  async function run_flow_streaming(query: string, url: string, apiKey: string, userId: string) {
+    // console.log(url)
+    try {
+      const response = await axios.post(
+        url,
+        {
+          inputs: {
+            "query": `${query}`,
+          },
+          response_mode: 'blocking',
+          user: userId
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      const text = response.data['data']['outputs']['text']
+      setText(text);
+      return text;
 
 
 
+    } catch (error) {
+      console.error('Error running workflow:', error);
+      throw error;
+    }
+  }
+
+  async function runFunc(uri: string, apiSecret: string) {
+    // 打开并读取文件内容
+    const file = app.vault.getAbstractFileByPath(uri);
+    if (file instanceof TFile) {
+      const content = await app.vault.read(file);
+      console.log(uri);
+      await run_flow_streaming(content, settings.difyBaseUrl + '/workflows/run', apiSecret, '123')
+
+    }
+  }
+
+  const handleSummarizeClick = () => {
+    console.log('handleSummarizeClick');
+    runFunc(uri, "app-D9pVcuGzzZmsIeZnTVwznCB1");
+  };
+
+  const handleQaClick = () => {
+    console.log('handleQaClick');
+  };
+
+  return (
+    <div>
+      <button onClick={handleSummarizeClick}>summarize</button>
+      <button onClick={handleQaClick}>gen qa pair</button>
+      <div>
+        <textarea
+          value={text}
+          
+        />
+      </div>
+    </div>
+  );
+
+};
 
 export const ItemList = ({ app, settings }: { app: App, settings: VaultAdminPluginSettings }) => {
   const [items, setItems] = React.useState<Array<{ title: string; uri: string; content: string }>>([]);
@@ -123,13 +201,11 @@ export const ItemList = ({ app, settings }: { app: App, settings: VaultAdminPlug
 
   React.useEffect(() => {
     const fetchItems = async () => {
-      const result = await difySearch(s, settings.difyBaseUrl + '/workflows/run' ,settings.wfSearchApiSecret, "search_from_obsidian");
+      const result = await difySearch(query_to_search, settings.difyBaseUrl + '/workflows/run', settings.wfSearchApiSecret, "search_from_obsidian");
       setItems(result);
     };
     fetchItems();
   }, []);
-
-  // console.log(items);
 
 
   const handleTitleClick = (uri: string) => {
