@@ -38,4 +38,7 @@ export default {
     "VA Chat View": "VA Chat",
     "VA Discovery View": "VA Discovery",
 
+    //btn
+    "empty the dify dataset": "empty the dify dataset",
+
 };

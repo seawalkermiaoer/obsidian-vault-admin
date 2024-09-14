@@ -1,14 +1,8 @@
 import { ItemView, WorkspaceLeaf, TFile } from "obsidian";
 import t from 'src/l10n/locale';
-
 import { StrictMode } from "react";
 import { Root, createRoot } from "react-dom/client";
-import { ReactView } from "./components/TestView";
-
 import { VaultAdminPluginSettings } from 'src/models/pluginSettings';
-
-// import { ItemList } from "./components/SearchListView";
-
 import { AppContext } from "src/context";
 
 
@@ -122,11 +116,25 @@ export const ItemList = ({ app, settings }: { app: App, settings: VaultAdminPlug
 
 
   React.useEffect(() => {
-    const fetchItems = async () => {
-      const result = await difySearch(s, settings.difyBaseUrl + '/workflows/run' ,settings.wfSearchApiSecret, "search_from_obsidian");
-      setItems(result);
-    };
+    const fetchItems = async (retries = 3, delay = 500) => {
+      try {
+        // 尝试调用 API
+        const result = await difySearch(s, settings.difyBaseUrl + '/workflows/run', settings.wfSearchApiSecret, "search_from_obsidian");
+        setItems(result);
+      } catch (error) {
+        if (retries > 0) {
+          console.error(`Fetch failed, retrying in ${delay / 1000} seconds...`, error);
+          // 等待一段时间后重试
+          setTimeout(() => fetchItems(retries - 1, delay), delay);
+        } else {
+          console.error('Max retries reached. Unable to fetch items:', error);
+          // 你可以在这里添加失败处理逻辑
+        }
+      }
+    };    
+    
     fetchItems();
+    
   }, []);
 
   // console.log(items);

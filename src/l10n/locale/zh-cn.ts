@@ -37,4 +37,8 @@ export default {
     "VA Chat View": "VA:对话",
     "VA Discovery View": "VA:发现",
 
+     //btn
+     "empty the dify dataset": "清空dify知识库",
+
+
 };

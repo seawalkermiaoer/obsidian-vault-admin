@@ -19,7 +19,7 @@ export default class VaultAdminPlugin extends Plugin {
 
 		this.registerView(
 			VIEW_TYPE_VA_CHAT,
-			(leaf) => new VAChatView(leaf)
+			(leaf) => new VAChatView(leaf, this.settings)
 		);
 		this.registerView(
 			VIEW_TYPE_VA_DISCOVERY,

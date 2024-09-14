@@ -61,13 +61,13 @@ export class VaultAdminSettingTab extends PluginSettingTab {
         containerEl.createEl('h3', { text: t('Dify Settings') })
 
         new Setting(containerEl)
-        .setName(t('Dify BaseUrl'))
-        .addText(text => text
-            .setValue(this.plugin.settings.difyBaseUrl)
-            .onChange(async (value) => {
-                this.plugin.settings.difyBaseUrl = value;
-                await this.plugin.saveSettings();
-            }));
+            .setName(t('Dify BaseUrl'))
+            .addText(text => text
+                .setValue(this.plugin.settings.difyBaseUrl)
+                .onChange(async (value) => {
+                    this.plugin.settings.difyBaseUrl = value;
+                    await this.plugin.saveSettings();
+                }));
 
         containerEl.createEl('h2', { text: t('Sync Notes To Dify') })
 
@@ -125,12 +125,20 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings()
                     }),
             )
+            
+        new Setting(containerEl).addButton((button) =>
+            button.setButtonText(t('empty the dify dataset')).onClick(async () => {
+                // await this.plugin.clearDifyDataset()
+                console.log('empty dify dataset');
+                //TODO
+            })
+        );
 
         containerEl.createEl('h2', { text: t('Discovering Connections in Notes') })
 
         new Setting(containerEl)
             .setName(t('Similar Notes Search Workflow API Secret'))
-            
+
             .addText(text => text
                 .setValue(this.plugin.settings.wfSearchApiSecret)
                 .onChange(async (value) => {

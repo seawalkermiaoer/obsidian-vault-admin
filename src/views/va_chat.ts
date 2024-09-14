@@ -3,11 +3,15 @@ import { Root, createRoot } from "react-dom/client";
 import t from 'src/l10n/locale';
 
 export const VIEW_TYPE_VA_CHAT = "va-chat-view";
+import { VaultAdminPluginSettings } from 'src/models/pluginSettings';
 
 export class VAChatView extends ItemView {
   root: Root | null = null;
-  constructor(leaf: WorkspaceLeaf) {
+  settings: VaultAdminPluginSettings;
+  
+  constructor(leaf: WorkspaceLeaf, settings: VaultAdminPluginSettings ) {
     super(leaf);
+    this.settings = settings;
   }
 
   getViewType() {
@@ -24,7 +28,7 @@ export class VAChatView extends ItemView {
 
     // 创建并嵌入 iframe
     const iframe = document.createElement('iframe');
-    iframe.src = "http://localhost/chatbot/jmbojIdbFHOK3muZ";
+    iframe.src = this.settings.wfChatUrl;
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.style.minHeight = '700px';
