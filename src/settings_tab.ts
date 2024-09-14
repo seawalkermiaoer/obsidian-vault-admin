@@ -6,10 +6,77 @@ import VaultAdminPlugin from "../main";
 export class VaultAdminSettingTab extends PluginSettingTab {
     plugin: VaultAdminPlugin;
 
+
+
     constructor(app: App, plugin: VaultAdminPlugin) {
         super(app, plugin);
         this.plugin = plugin;
     }
+
+
+
+    async deleteDocument(documentId: string): Promise<void> {
+        const datasetId = this.plugin.settings.difyDatasetId;
+        const apiKey = this.plugin.settings.difyDatasetApiSecret;
+        const baseUrl = this.plugin.settings.difyBaseUrl;
+        const url = `${baseUrl}/datasets/${datasetId}/documents/${documentId}`;
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+
+            console.log(`Document ${documentId} from dataset ${datasetId} deleted successfully.`);
+        } catch (error) {
+            console.error('Failed to delete document:', error);
+            throw error;
+        }
+    }
+
+
+    async emptyhDataset(): Promise<any> {
+        const datasetId = this.plugin.settings.difyDatasetId;
+        const apiKey = this.plugin.settings.difyDatasetApiSecret;
+        const baseUrl = this.plugin.settings.difyBaseUrl;
+        const url = `${baseUrl}/datasets/${datasetId}/documents?limit=100`;
+
+
+        while (true) {
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log(data['data']);
+                if (data['data'].length === 0) {
+                    break;
+                }
+                for (const document of data['data']) {
+                    await this.deleteDocument(document['id']);
+                }
+            } catch (error) {
+                console.error('Failed to fetch documents:', error);
+                throw error;
+            }
+        }
+    }
+
     display(): void {
         const { containerEl } = this;
 
@@ -125,12 +192,11 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings()
                     }),
             )
-            
+
         new Setting(containerEl).addButton((button) =>
             button.setButtonText(t('empty the dify dataset')).onClick(async () => {
-                // await this.plugin.clearDifyDataset()
-                console.log('empty dify dataset');
-                //TODO
+                await this.emptyhDataset();
+                new Notice('Empty Dify dataset done!');
             })
         );
 
@@ -160,11 +226,4 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                 }));
 
     }
-}
-
-export interface MultiPropSettings {
-    keepAt: string;
-    omnivoreFolder: string;
-    keepOnStart: boolean;
-    frequency: number;
 }
