@@ -33,20 +33,18 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
 
-            console.log(`Document ${documentId} from dataset ${datasetId} deleted successfully.`);
+            // console.log(`Document ${documentId} from dataset ${datasetId} deleted successfully.`);
         } catch (error) {
             console.error('Failed to delete document:', error);
             throw error;
         }
     }
 
-
     async emptyhDataset(): Promise<any> {
         const datasetId = this.plugin.settings.difyDatasetId;
         const apiKey = this.plugin.settings.difyDatasetApiSecret;
         const baseUrl = this.plugin.settings.difyBaseUrl;
         const url = `${baseUrl}/datasets/${datasetId}/documents?limit=100`;
-
 
         while (true) {
             try {
@@ -63,7 +61,7 @@ export class VaultAdminSettingTab extends PluginSettingTab {
                 }
 
                 const data = await response.json();
-                console.log(data['data']);
+                // console.log(data['data']);
                 if (data['data'].length === 0) {
                     break;
                 }
